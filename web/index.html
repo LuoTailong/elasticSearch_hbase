@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ZH" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>在线查找</title>
+    <meta name="keywords" content="传智播客">
+    <meta name="description" content="传智播客">
+    <link href="css/drop-down.css" rel="stylesheet" type="text/css"/>
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+</head>
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/select-widget-min.js"></script>
+
+
+<body>
+
+<div class="top"></div>
+<div class="header">
+    <div class="nayouhuo_logo"><img src="images/nayouhuo_logo.png" width="435" height="89" /></div>
+    <div class="search">
+        <form name="ss" id="ss" action="#" method="get">
+            <div class="search_input">
+
+                <input name="url" type="text"  id="input11" class="search_url" placeholder="请输入"/>
+                <input name="keyword" type="button"  id="search_es" class="search_submit"  onclick="loadXMLDoc()" value="查询哪有货"   />
+                <!--<a href="javascript:void(0);" class="jq">精确查询</a>-->
+
+            </div>
+        </form>
+    </div>
+</div>
+<div class="show_content" id="show">
+    <div class="location"><span>北京市-顺义-(黑马-传智大数据:312教室)</span><h1>传智播客</h1></div>
+    <div class="show_list">
+        <table id="he1" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td height="40" align="center" valign="middle" class="title_bg">题目</td>
+                <td height="40" align="center" valign="middle" class="title_bg">来源</td>
+                <td height="40" align="center" valign="middle" class="title_bg">时间</td>
+                <td height="40" align="center" valign="middle" class="title_bg">浏览次数</td>
+                <td height="40" align="center" valign="middle" class="title_bg">内容</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="cha-soucang"><a href="javascript:void(0);" title="收藏一起惠·哪有货，查询有无货更方便！"><img src="images/iconfont-shoucang.png" /></a></div>
+<div class="nyh_footer">
+    <div class="nyh_footer_nav">
+        <a href="http://news.178hui.com/2839.html" target="_blank">关于我们</a><a href="www.itcast.cn" target="_blank">传智播客</a>
+
+    </div>
+    <div class="nyh_copyright">Copyright © 2018 www.itcast.cn </div>
+</div>
+
+<script type="text/javascript">
+
+    function loadXMLDoc()
+    {
+        var inputurl = document.getElementsByClassName('search_url')[0].value;
+
+        var str = window.location.href;
+        $.ajax({
+            type: "POST",
+            url: str+"search?keyword="+inputurl,
+            success: function(data){ // data 服务器返回给浏览器的数据
+                var data = eval(data)
+//                alert(data[1].title)
+                var itemstr ="<tr><td height='40' align='center'>标题</td>" +
+                        "<td height='40' align='center'>来源</td>" +
+                        "<td height='40' align='center'>时间</td>" +
+                        "<td height='40' align='center'>阅读数量</td>" +
+                        "<td height='40' align='center'>正文</td></tr>>"
+                    ;
+                for (var i = 0; i < data.length; i++) {
+                    itemstr +=
+                        "<tr><td height='40' align='center'>"+data[i].title+"</td>" +
+                        "<td height='40' align='center'>"+data[i].from+"</td>" +
+                        "<td height='40' align='center'>"+data[i].times+"</td>" +
+                        "<td height='40' align='center'>"+data[i].readCounts+"</td>" +
+                        "<td height='40' align='center'><a href='http://localhost:8080/SearchHbase?id="+data[i].id+"' target='_blank'>去看看</a></td></tr>>"
+                    ;
+
+                }
+                $('#he1>tbody').html(itemstr);
+
+            },
+            error: function (data) {
+                alert("对不起！数据加载失败！");
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
+
